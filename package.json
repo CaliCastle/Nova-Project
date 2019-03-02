@@ -1,0 +1,12 @@
+{
+  "name": "com.calicastle.uikit",
+  "displayName": "UI Kit",
+  "version": "0.1.0",
+  "unity": "2018.1",
+  "description": "A Unity UIKit framework / library for creating and manipulating robust UIs.",
+  "keywords": [
+    "UI",
+    "unity"
+  ],
+  "category": "GUI"
+}
