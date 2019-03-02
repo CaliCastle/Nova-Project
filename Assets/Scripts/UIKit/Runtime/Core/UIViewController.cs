@@ -42,7 +42,7 @@ namespace UIKit
         public UIViewControllerConfiguration Configuration;
 
         [SerializeField, Range( 0.1f, 1f )]
-        private float m_fadeDuration = 0.2f;
+        private float m_presentationDuration = 0.2f;
 
         /// <summary>
         /// Indicator for whether or not currently fading
@@ -92,7 +92,7 @@ namespace UIKit
                 m_canvasGroup.alpha = 0f;
             }
 
-            FadeTo( 1f, duration ?? m_fadeDuration, onComplete );
+            FadeTo( 1f, duration ?? m_presentationDuration, onComplete );
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace UIKit
                 m_canvasGroup.alpha = 1f;
             }
 
-            FadeTo( 0f, duration ?? m_fadeDuration, onComplete );
+            FadeTo( 0f, duration ?? m_presentationDuration, onComplete );
         }
 
         /// <summary>
