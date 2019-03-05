@@ -38,7 +38,7 @@ namespace Nova
     {
         #region Properties
 
-        [Header( "UIViewController" )]
+        [Header( "====== Nova UIViewController ======" )]
         public UIViewControllerConfiguration Configuration;
 
         [SerializeField, Range( 0.1f, 1f )]
