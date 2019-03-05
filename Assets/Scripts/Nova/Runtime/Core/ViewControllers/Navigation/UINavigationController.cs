@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Nova
 {
-    public class UINavigationController : MonoBehaviour
+    public class UINavigationController : UIViewController
     {
         #region Properties
 
@@ -12,12 +12,6 @@ namespace Nova
             get;
             private set;
         }
-
-        /// <summary>
-        /// The root canvas view for navigation controller
-        /// </summary>
-        [SerializeField]
-        private RectTransform m_view;
 
         /// <summary>
         /// The initial view controller to be present on

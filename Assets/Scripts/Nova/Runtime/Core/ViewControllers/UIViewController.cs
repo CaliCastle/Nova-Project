@@ -201,6 +201,11 @@ namespace Nova
         private void GetCanvasGroup()
         {
             m_canvasGroup = GetComponent<CanvasGroup>();
+
+            if ( m_canvasGroup == null )
+            {
+                m_canvasGroup = gameObject.AddComponent<CanvasGroup>();
+            }
         }
 
         private void FindNavigationController()
