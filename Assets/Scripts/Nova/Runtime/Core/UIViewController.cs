@@ -3,7 +3,7 @@ using System.Collections;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace UIKit
+namespace Nova
 {
     [Serializable]
     public sealed class UIViewControllerConfiguration

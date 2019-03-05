@@ -1,10 +1,9 @@
 using System;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using JetBrains.Annotations;
 
-namespace UIKit.Editor
+namespace Nova.Editor
 {
     [CustomEditor( typeof( UIViewController ), true )]
     public sealed class UIViewControllerEditor : UnityEditor.Editor

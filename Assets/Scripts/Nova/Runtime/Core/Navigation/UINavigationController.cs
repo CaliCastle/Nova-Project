@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UIKit
+namespace Nova
 {
     public class UINavigationController : MonoBehaviour
     {

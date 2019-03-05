@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UIKit
+namespace Nova
 {
     public sealed class SafeAreaSimulation : MonoBehaviour
     {

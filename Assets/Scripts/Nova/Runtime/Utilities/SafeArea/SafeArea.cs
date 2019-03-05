@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UIKit
+namespace Nova
 {
     /// <summary>
     /// Safe area implementation for notched mobile devices. Usage:
