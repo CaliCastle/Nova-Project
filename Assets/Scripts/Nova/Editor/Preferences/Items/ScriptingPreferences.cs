@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -9,7 +8,7 @@ namespace Nova.Editor
     internal sealed class ScriptingPreferences : IPreferenceItem
     {
         public static string NamespaceName => NovaPreferences.Get( c_namespacePrefKey, c_defaultNamespace );
-        public static string NovaPath => NovaPreferences.Get( c_novaPathPrefKey, $"{Environment.CurrentDirectory}/Packages/Nova" );
+        public static string NovaPath => NovaPreferences.Get( c_novaPathPrefKey, $"/Packages/Nova" );
 
         #region IPreferenceItem
 

@@ -9,7 +9,7 @@ namespace Nova.Editor
     {
         private string m_navigationControllerInput = "NavigationController";
 
-        [MenuItem( "Assets/Create/Nova/NavigationController" )]
+        [MenuItem( "Assets/Create/Nova/NavigationController", false, 10 )]
         private static void CreateUINavigationController( MenuCommand menuCommand )
         {
             CreateNavigationControllerEditorWindow window = CreateInstance<CreateNavigationControllerEditorWindow>();

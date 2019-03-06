@@ -19,10 +19,10 @@ namespace Nova.Editor
         private const float c_buttonHeight = 22f;
 
         private readonly Color[] m_buttonPrimaryColors =
-            {new Color( 0.85f, 0.92f, 0.73f ), new Color( 0.24f, 0.29f, 0.39f )};
+            { new Color( 0.85f, 0.92f, 0.73f ), new Color( 0.24f, 0.29f, 0.39f ) };
 
         private readonly Color[] m_buttonDangerColors =
-            {new Color( 0.92f, 0.54f, 0.4f ), new Color( 0.57f, 0.29f, 0.16f )};
+            { new Color( 0.92f, 0.54f, 0.4f ), new Color( 0.57f, 0.29f, 0.16f ) };
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace Nova.Editor
         private void MakeIdentifierButton()
         {
             if ( GUILayout.Button( "Generate ID", new GUIStyle( GUI.skin.button )
-                {normal = {textColor = GetButtonTextColor( "primary" )}, fixedHeight = c_buttonHeight} ) )
+                { normal = { textColor = GetButtonTextColor( "primary" ) }, fixedHeight = c_buttonHeight } ) )
             {
                 if ( string.IsNullOrEmpty( m_viewController.Configuration.Identifier ) )
                 {
@@ -55,7 +55,7 @@ namespace Nova.Editor
         {
             if ( GUILayout.Button( "Reset Bounds",
                 new GUIStyle( GUI.skin.button )
-                    {normal = {textColor = GetButtonTextColor( "danger" )}, fixedHeight = c_buttonHeight} ) )
+                    { normal = { textColor = GetButtonTextColor( "danger" ) }, fixedHeight = c_buttonHeight } ) )
             {
                 m_viewController.ResetBounds();
             }
@@ -78,7 +78,7 @@ namespace Nova.Editor
         {
             if ( GUILayout.Button( "Initialize Views",
                 new GUIStyle( GUI.skin.button )
-                    {normal = {textColor = GetButtonTextColor( "primary" )}, fixedHeight = c_buttonHeight} ) )
+                    { normal = { textColor = GetButtonTextColor( "primary" ) }, fixedHeight = c_buttonHeight } ) )
             {
                 if ( m_viewController.transform.childCount > 0 )
                 {
@@ -87,7 +87,7 @@ namespace Nova.Editor
                     return;
                 }
 
-                GameObject view = MakeGameObject( "Views" );
+                GameObject view = MakeGameObject( "Views", typeof( View ) );
 
                 GameObject background = MakeGameObject( "Background" );
                 GameObject safeArea = MakeGameObject( "Safe Area", typeof( SafeArea ) );
@@ -99,6 +99,8 @@ namespace Nova.Editor
 
                 background.transform.SetAsFirstSibling();
                 foreground.transform.SetAsLastSibling();
+
+                view.GetComponent<View>().Inject( background.transform, safeArea.transform, foreground.transform );
             }
         }
 

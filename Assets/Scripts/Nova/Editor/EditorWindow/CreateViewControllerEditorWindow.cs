@@ -9,7 +9,7 @@ namespace Nova.Editor
     {
         private string m_viewControllerInput = "ViewController";
 
-        [MenuItem( "Assets/Create/Nova/ViewController" )]
+        [MenuItem( "Assets/Create/Nova/ViewController", false, 11 )]
         private static void CreateUIViewController( MenuCommand menuCommand )
         {
             CreateViewControllerEditorWindow window = CreateInstance<CreateViewControllerEditorWindow>();

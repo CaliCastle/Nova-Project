@@ -41,10 +41,14 @@ namespace Nova
         [Header( "====== Nova View Controller ======" )]
         public UIViewControllerConfiguration Configuration;
 
+        public View View => m_view;
+
         /// <summary>
         /// Root window
         /// </summary>
-        protected UIWindow m_window;
+        protected UIWindow m_window { get; private set; }
+
+        protected View m_view;
 
         [SerializeField, Range( 0.1f, 1f )]
         private float m_presentationDuration = 0.2f;
@@ -56,9 +60,9 @@ namespace Nova
 
         private CanvasGroup m_canvasGroup;
 
-        #endregion
+        #endregion Properties
 
-        #region Public Methods
+        #region Public
 
         public virtual void ViewWillDisappear()
         {
@@ -73,7 +77,6 @@ namespace Nova
         /// <exception cref="ArgumentNullException"></exception>
         public virtual void Present( float? duration = null, Action onComplete = null )
         {
-            
         }
 
         /// <summary>
@@ -156,13 +159,14 @@ namespace Nova
             m_window = window;
         }
 
-        #endregion
+        #endregion Public
 
-        #region MonoBehaviour Methods
+        #region MonoBehaviour
 
         protected void Awake()
         {
             GetRootWindow();
+            GetView();
             GetCanvasGroup();
 
             ViewWillLoad();
@@ -188,9 +192,9 @@ namespace Nova
             ViewWillUnload();
         }
 
-        #endregion
+        #endregion MonoBehaviour
 
-        #region Protected Methods
+        #region Protected
 
         /// <summary>
         /// Will be called on Awake
@@ -224,13 +228,22 @@ namespace Nova
         {
         }
 
-        #endregion
+        #endregion Protected
 
-        #region Private Methods
+        #region Private
 
         private void GetRootWindow()
         {
             m_window = GetComponentInParent<UIWindow>();
+        }
+
+        private void GetView()
+        {
+            Transform child = transform.GetChild( 0 );
+            if ( child )
+            {
+                m_view = child.GetComponent<View>();
+            }
         }
 
         /// <summary>
@@ -257,10 +270,10 @@ namespace Nova
         {
             m_isFading = true;
 
-            float t = 0f;
-            float alpha = m_canvasGroup.alpha;
-            float startAlpha = alpha;
-            float deltaAlpha = value - alpha;
+            var t = 0f;
+            var alpha = m_canvasGroup.alpha;
+            var startAlpha = alpha;
+            var deltaAlpha = value - alpha;
 
             while ( t <= 1 )
             {
@@ -274,9 +287,9 @@ namespace Nova
 
             m_isFading = false;
 
-            if ( onComplete != null ) onComplete();
+            onComplete?.Invoke();
         }
 
-        #endregion
+        #endregion Private
     }
 }
