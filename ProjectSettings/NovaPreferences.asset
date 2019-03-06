@@ -1,0 +1,12 @@
+{
+    "m_elements": [
+        {
+            "m_key": "Scripting_NovaPath",
+            "m_value": "/Users/calicastle/Projects/Unity/Nova/"
+        },
+        {
+            "m_key": "Scripting_Namespace",
+            "m_value": "Example"
+        }
+    ]
+}

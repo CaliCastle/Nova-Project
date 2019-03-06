@@ -1,5 +1,8 @@
 using System;
+using System.IO;
+using System.Text;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,20 +23,6 @@ namespace Nova.Editor
         private static void CreateUIView( MenuCommand menuCommand )
         {
             MakeUIView( menuCommand );
-        }
-
-        [MenuItem( "Assets/Create/Nova/ViewController" )]
-        private static void CreateUIViewController( MenuCommand menuCommand )
-        {
-            CreateScriptAsset( $"{NovaEditorSettings.NovaPath}/Stubs/ViewController.cs.stub",
-                "ViewController.cs" );
-        }
-
-        [MenuItem( "Assets/Create/Nova/NavigationController" )]
-        private static void CreateUINavigationController( MenuCommand menuCommand )
-        {
-            CreateScriptAsset( $"{NovaEditorSettings.NovaPath}/Stubs/NavigationController.cs.stub",
-                "NavigationController.cs" );
         }
 
         private static GameObject MakeUIView( MenuCommand menuCommand, string name = "UIView" )
