@@ -14,7 +14,7 @@ namespace Nova
         void LiftOff( UIWindow window );
     }
 
-    public class UIWindow : MonoBehaviour
+    public class UIWindow : UIResponder
     {
         #region Properties
 
@@ -34,9 +34,9 @@ namespace Nova
         /// </summary>
         private readonly List<UIViewController> m_viewControllers = new List<UIViewController>();
 
-        #endregion
+        #endregion Properties
 
-        #region Public Methods
+        #region Public
 
         /// <summary>
         /// 
@@ -56,10 +56,14 @@ namespace Nova
             }
 
             T controller = Instantiate( prefab, m_view.transform );
+            controller.gameObject.name = typeof( T ).Name;
             controller.ResetBounds();
             controller.transform.SetAsLastSibling();
+            controller.Inject( this );
 
             preparation?.Invoke( controller );
+
+            controller.FadeIn( onComplete: onComplete );
 
             return controller;
         }
@@ -69,15 +73,15 @@ namespace Nova
             m_view = view;
         }
 
-        #endregion
+        #endregion Public
 
-        #region MonoBehaviour Methods
+        #region MonoBehaviour
 
         private void Awake()
         {
             if ( m_view == null )
             {
-                Debug.LogErrorFormat( "<b>{0}</b> doesn't have `m_view` field assigned.", gameObject.name );
+                Debug.LogError( $"<b>{gameObject.name}</b> doesn't have <i>`m_view`</i> field assigned." );
                 return;
             }
 
@@ -85,9 +89,9 @@ namespace Nova
             Launch();
         }
 
-        #endregion
+        #endregion MonoBehaviour
 
-        #region Private Methods
+        #region Private
 
         /// <summary>
         /// Destroy any
@@ -118,6 +122,6 @@ namespace Nova
             nova?.LiftOff( this );
         }
 
-        #endregion
+        #endregion Private
     }
 }

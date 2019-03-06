@@ -34,11 +34,11 @@ namespace Nova
     }
 
     [RequireComponent( typeof( CanvasGroup ) )]
-    public abstract class UIViewController : MonoBehaviour
+    public abstract class UIViewController : UIResponder
     {
         #region Properties
 
-        [Header( "====== Nova UIViewController ======" )]
+        [Header( "====== Nova View Controller ======" )]
         public UIViewControllerConfiguration Configuration;
 
         /// <summary>
@@ -71,9 +71,9 @@ namespace Nova
         /// <param name="duration"></param>
         /// <param name="onComplete"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public virtual void Present( [NotNull] UIViewController viewController,
-            float? duration = null, Action onComplete = null )
+        public virtual void Present( float? duration = null, Action onComplete = null )
         {
+            
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Nova
         /// </summary>
         /// <param name="duration"></param>
         /// <param name="onComplete">callback handler</param>
-        public void FadeIn( float? duration, Action onComplete = null )
+        public void FadeIn( float? duration = null, Action onComplete = null )
         {
             if ( m_canvasGroup != null )
             {
@@ -105,7 +105,7 @@ namespace Nova
         /// </summary>
         /// <param name="duration"></param>
         /// <param name="onComplete">callback handler</param>
-        public void FadeOut( float? duration, Action onComplete = null )
+        public void FadeOut( float? duration = null, Action onComplete = null )
         {
             if ( m_canvasGroup != null )
             {

@@ -87,8 +87,18 @@ namespace Nova.Editor
                     return;
                 }
 
-                MakeGameObject( "Background" );
-                MakeGameObject( "Views", typeof( SafeArea ) );
+                GameObject view = MakeGameObject( "Views" );
+
+                GameObject background = MakeGameObject( "Background" );
+                GameObject safeArea = MakeGameObject( "Safe Area", typeof( SafeArea ) );
+                GameObject foreground = MakeGameObject( "Foreground" );
+
+                background.transform.SetParent( view.transform );
+                safeArea.transform.SetParent( view.transform );
+                foreground.transform.SetParent( view.transform );
+
+                background.transform.SetAsFirstSibling();
+                foreground.transform.SetAsLastSibling();
             }
         }
 
@@ -103,6 +113,7 @@ namespace Nova.Editor
             GameObject gameObject = Instantiate( originGameObject, m_viewController.transform );
             gameObject.name = objectName;
             gameObject.transform.localScale = Vector3.one;
+
             ResetRectTransform( ( RectTransform ) gameObject.transform );
 
             DestroyImmediate( originGameObject );
