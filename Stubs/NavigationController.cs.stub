@@ -1,6 +1,0 @@
-using Nova;
-
-public sealed class NavigationController : UINavigationController
-{
-    
-}
