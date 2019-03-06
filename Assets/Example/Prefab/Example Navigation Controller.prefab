@@ -88,7 +88,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3469357587599007508
 RectTransform:
   m_ObjectHideFlags: 0
@@ -142,12 +142,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Configuration:
-    Identifier: 
+    Identifier: example-navigation
     Title: 
+    TransitionType: 0
     HideNavigationOverlays: 0
     HideNavigationCloseButton: 0
     HideNavigationTitle: 0
-    DestroyOnClose: 1
   m_presentationDuration: 0.2
   m_initialViewController: {fileID: 617064651064156728, guid: 1920c1456b12d43ee9d7fb09aad1b04a,
     type: 3}

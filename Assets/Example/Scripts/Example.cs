@@ -7,7 +7,7 @@ namespace Example
     {
         public void LiftOff( UIWindow window )
         {
-            window.Present<ExampleNavigationController>();
+            window.Present<ExampleNavigationController>( false );
         }
     }
 }

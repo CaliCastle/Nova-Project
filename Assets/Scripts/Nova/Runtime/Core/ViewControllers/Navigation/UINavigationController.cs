@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using JetBrains.Annotations;
 using System.Collections.Generic;
 
 namespace Nova
@@ -8,7 +9,7 @@ namespace Nova
     {
         #region Properties
 
-        public Stack<UIViewController> ViewControllers { get; private set; }
+        public readonly Stack<UIViewController> ViewControllers = new Stack<UIViewController>();
 
         /// <summary>
         /// The initial view controller to be present on
@@ -16,18 +17,64 @@ namespace Nova
         [SerializeField]
         private UIViewController m_initialViewController;
 
+        private bool m_isTransitioning;
+
         #endregion Properties
 
         #region Public
 
-        public void Push<T>( Action<T> preparation = null, Action onComplete = null ) where T : UIViewController
+        [CanBeNull]
+        public T Push<T>( bool animates = true, Action<T> preparation = null, Action onComplete = null )
+            where T : UIViewController
         {
-//            ViewControllers.Push(  );
+            if ( m_isTransitioning )
+            {
+                return null;
+            }
+
+            T prefab = m_window.GetControllerPrefab<T>();
+            if ( prefab == null )
+            {
+                return null;
+            }
+
+            return Push( prefab, animates, preparation, onComplete );
         }
 
-        public UIViewController Pop()
+        [CanBeNull]
+        public T Push<T>( [NotNull] T viewController, bool animates = true, Action<T> preparation = null,
+            Action onComplete = null ) where T : UIViewController
         {
-            return ViewControllers.Pop();
+            if ( m_isTransitioning )
+            {
+                return null;
+            }
+
+            T controller = Instantiate( viewController, m_view.Background );
+            controller.Inject( m_window, this );
+            controller.name = viewController.name;
+            controller.transform.localScale = Vector3.one;
+
+            preparation?.Invoke( controller );
+
+            ViewControllers.Push( controller );
+
+            controller.Show( animates, onComplete );
+
+            return controller;
+        }
+
+        public UIViewController Pop( bool animates = true, Action onComplete = null )
+        {
+            UIViewController controller = ViewControllers.Pop();
+            controller.ViewWillDisappear();
+            controller.Hide( animates, () =>
+            {
+                onComplete?.Invoke();
+                Destroy( controller.gameObject );
+            } );
+
+            return controller;
         }
 
         #endregion Public
@@ -42,11 +89,6 @@ namespace Nova
             {
                 Debug.LogError( $"<b>{GetType()}</b> doesn't have <i>`m_initialViewController`</i> field assigned." );
             }
-        }
-
-        protected override void ViewDidLoad()
-        {
-            base.ViewDidLoad();
 
             PresentInitialViewController();
         }
@@ -61,6 +103,8 @@ namespace Nova
             {
                 return;
             }
+
+            Push( m_initialViewController, false );
         }
 
         #endregion Private

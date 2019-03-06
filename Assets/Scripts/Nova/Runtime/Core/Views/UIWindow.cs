@@ -41,14 +41,15 @@ namespace Nova
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="animates"></param>
         /// <param name="preparation"></param>
         /// <param name="onComplete"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         [CanBeNull]
-        public T Present<T>( Action<T> preparation = null, Action onComplete = null ) where T : UIViewController
+        public T Present<T>( bool animates = true, Action<T> preparation = null, Action onComplete = null ) where T : UIViewController
         {
-            T prefab = m_viewControllerPrefabPool.Find( vc => vc is T ) as T;
+            T prefab = GetControllerPrefab<T>();
 
             if ( prefab == null )
             {
@@ -63,9 +64,21 @@ namespace Nova
 
             preparation?.Invoke( controller );
 
-            controller.FadeIn( onComplete: onComplete );
+            controller.Show( animates, onComplete );
 
             return controller;
+        }
+
+        [CanBeNull]
+        public T GetControllerPrefab<T>() where T : UIViewController
+        {
+            T prefab = m_viewControllerPrefabPool.Find( vc => vc is T ) as T;
+            if ( prefab == null )
+            {
+                Debug.LogError( $"<b>{typeof( T )}</b> couldn't be found in the controller pool from {gameObject.name}." );
+            }
+
+            return prefab;
         }
 
         public void Inject( [NotNull] UIView view )

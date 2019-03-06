@@ -19,6 +19,11 @@ namespace Nova
         public string Title = string.Empty;
 
         /// <summary>
+        /// The transition type for presenting / dismissing
+        /// </summary>
+        public UIViewControllerTransitionType TransitionType = UIViewControllerTransitionType.Fade;
+
+        /// <summary>
         /// Whether or not to hide the top and bottom gradient overlay when presenting
         /// </summary>
         public bool HideNavigationOverlays;
@@ -29,8 +34,6 @@ namespace Nova
         public bool HideNavigationCloseButton;
 
         public bool HideNavigationTitle;
-
-        public bool DestroyOnClose = true;
     }
 
     [RequireComponent( typeof( CanvasGroup ) )]
@@ -43,12 +46,18 @@ namespace Nova
 
         public View View => m_view;
 
+        [CanBeNull]
+        public UINavigationController NavigationController => m_navigationController;
+
         /// <summary>
         /// Root window
         /// </summary>
         protected UIWindow m_window { get; private set; }
 
         protected View m_view;
+
+        [CanBeNull]
+        private UINavigationController m_navigationController;
 
         [SerializeField, Range( 0.1f, 1f )]
         private float m_presentationDuration = 0.2f;
@@ -86,6 +95,55 @@ namespace Nova
         /// <param name="onComplete"></param>
         public virtual void Dismiss( float? duration = null, Action onComplete = null )
         {
+            switch ( Configuration.TransitionType )
+            {
+                case UIViewControllerTransitionType.Fade:
+                    FadeOut( duration, onComplete );
+                    break;
+                default:
+                    return;
+            }
+        }
+
+        public virtual void Show( bool animates = true, Action onComplete = null )
+        {
+            if ( !gameObject.activeInHierarchy )
+            {
+                gameObject.SetActive( true );
+            }
+
+            if ( !animates )
+            {
+                onComplete?.Invoke();
+                return;
+            }
+
+            switch ( Configuration.TransitionType )
+            {
+                case UIViewControllerTransitionType.Fade:
+                    FadeIn( onComplete: onComplete );
+                    break;
+                default:
+                    return;
+            }
+        }
+
+        public virtual void Hide( bool animates = true, Action onComplete = null )
+        {
+            if ( !animates )
+            {
+                onComplete?.Invoke();
+                return;
+            }
+
+            switch ( Configuration.TransitionType )
+            {
+                case UIViewControllerTransitionType.Fade:
+                    FadeOut( onComplete: onComplete );
+                    break;
+                default:
+                    return;
+            }
         }
 
         /// <summary>
@@ -154,9 +212,11 @@ namespace Nova
         /// Inject the desired dependencies
         /// </summary>
         /// <param name="window"></param>
-        public void Inject( [NotNull] UIWindow window )
+        /// <param name="navigationController"></param>
+        public void Inject( [NotNull] UIWindow window, UINavigationController navigationController = null )
         {
             m_window = window;
+            m_navigationController = navigationController;
         }
 
         #endregion Public
@@ -277,7 +337,7 @@ namespace Nova
 
             while ( t <= 1 )
             {
-                t = Time.deltaTime / duration;
+                t += Time.deltaTime / duration;
                 m_canvasGroup.alpha = startAlpha + t * deltaAlpha;
 
                 yield return null;

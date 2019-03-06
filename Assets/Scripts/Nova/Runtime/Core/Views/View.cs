@@ -4,6 +4,10 @@ namespace Nova
 {
     public class View : MonoBehaviour
     {
+        public Transform Background => m_background;
+        public Transform SafeArea => m_safeArea;
+        public Transform Foreground => m_foreground;
+
         [SerializeField]
         private Transform m_background;
 
