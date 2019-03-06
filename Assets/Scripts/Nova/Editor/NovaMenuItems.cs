@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Nova.Editor
 {
-    public class NovaMenuItems
+    public sealed class NovaMenuItems
     {
         [MenuItem( "GameObject/Nova/UIWindow", false, 10 )]
         private static void CreateUIWindow( MenuCommand menuCommand )
@@ -22,17 +22,17 @@ namespace Nova.Editor
             MakeUIView( menuCommand );
         }
 
-        [MenuItem( "Assets/Create/Nova/UIViewController" )]
+        [MenuItem( "Assets/Create/Nova/ViewController" )]
         private static void CreateUIViewController( MenuCommand menuCommand )
         {
-            CreateScriptAsset( $"{Environment.CurrentDirectory}/Packages/Nova/Stubs/ViewController.cs.stub",
+            CreateScriptAsset( $"{NovaEditorSettings.NovaPath}/Stubs/ViewController.cs.stub",
                 "ViewController.cs" );
         }
 
-        [MenuItem( "Assets/Create/Nova/UIViewController" )]
+        [MenuItem( "Assets/Create/Nova/NavigationController" )]
         private static void CreateUINavigationController( MenuCommand menuCommand )
         {
-            CreateScriptAsset( $"{Environment.CurrentDirectory}/Packages/Nova/Stubs/NavigationController.cs.stub",
+            CreateScriptAsset( $"{NovaEditorSettings.NovaPath}/Stubs/NavigationController.cs.stub",
                 "NavigationController.cs" );
         }
 
