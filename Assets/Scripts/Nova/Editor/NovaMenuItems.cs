@@ -13,13 +13,27 @@ namespace Nova.Editor
             GameObject window = CreateGameObject( menuCommand, "UIWindow", typeof( UIWindow ) );
             GameObject view = MakeUIView( menuCommand, "Main View" );
             view.transform.SetParent( window.transform );
-            window.GetComponent<UIWindow>().AssignView( view.GetComponent<UIView>() );
+            window.GetComponent<UIWindow>().Inject( view.GetComponent<UIView>() );
         }
 
         [MenuItem( "GameObject/Nova/UIView", false, 10 )]
         private static void CreateUIView( MenuCommand menuCommand )
         {
             MakeUIView( menuCommand );
+        }
+
+        [MenuItem( "Assets/Create/Nova/UIViewController" )]
+        private static void CreateUIViewController( MenuCommand menuCommand )
+        {
+            CreateScriptAsset( $"{Environment.CurrentDirectory}/Packages/Nova/Stubs/ViewController.cs.stub",
+                "ViewController.cs" );
+        }
+
+        [MenuItem( "Assets/Create/Nova/UIViewController" )]
+        private static void CreateUINavigationController( MenuCommand menuCommand )
+        {
+            CreateScriptAsset( $"{Environment.CurrentDirectory}/Packages/Nova/Stubs/NavigationController.cs.stub",
+                "NavigationController.cs" );
         }
 
         private static GameObject MakeUIView( MenuCommand menuCommand, string name = "UIView" )
@@ -47,6 +61,14 @@ namespace Nova.Editor
             Selection.activeObject = gameObject;
 
             return gameObject;
+        }
+
+        private static void CreateScriptAsset( string templatePath, string destName )
+        {
+            typeof( ProjectWindowUtil )
+                .GetMethod( "CreateScriptAsset",
+                    System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic )
+                ?.Invoke( null, new object[] {templatePath, destName} );
         }
     }
 }

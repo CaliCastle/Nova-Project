@@ -1,5 +1,4 @@
 using Nova;
-using UnityEditor;
 using UnityEngine;
 
 namespace Example
@@ -8,7 +7,7 @@ namespace Example
     {
         public void LiftOff( UIWindow window )
         {
-            
+            window.Present<ExampleNavigationController>();
         }
     }
 }

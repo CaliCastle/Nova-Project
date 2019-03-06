@@ -1,7 +1,7 @@
 using System;
+using UnityEngine;
 using System.Collections;
 using JetBrains.Annotations;
-using UnityEngine;
 
 namespace Nova
 {
@@ -40,6 +40,11 @@ namespace Nova
 
         [Header( "====== Nova UIViewController ======" )]
         public UIViewControllerConfiguration Configuration;
+
+        /// <summary>
+        /// Root window
+        /// </summary>
+        protected UIWindow m_window;
 
         [SerializeField, Range( 0.1f, 1f )]
         private float m_presentationDuration = 0.2f;
@@ -123,14 +128,42 @@ namespace Nova
             StartCoroutine( FadeOpacityTo( opacity, duration, onComplete ) );
         }
 
+        /// <summary>
+        /// Reset transform bounds to pin to full screen edges
+        /// </summary>
+        public void ResetBounds()
+        {
+            RectTransform rectTransform = transform as RectTransform;
+            if ( rectTransform == null )
+            {
+                return;
+            }
+
+            rectTransform.localRotation = Quaternion.identity;
+            rectTransform.localScale = Vector3.one;
+            rectTransform.anchorMin = Vector2.zero;
+            rectTransform.offsetMin = Vector2.zero;
+            rectTransform.offsetMax = Vector2.zero;
+            rectTransform.anchorMax = Vector2.one;
+        }
+
+        /// <summary>
+        /// Inject the desired dependencies
+        /// </summary>
+        /// <param name="window"></param>
+        public void Inject( [NotNull] UIWindow window )
+        {
+            m_window = window;
+        }
+
         #endregion
 
         #region MonoBehaviour Methods
 
         protected void Awake()
         {
+            GetRootWindow();
             GetCanvasGroup();
-            FindNavigationController();
 
             ViewWillLoad();
         }
@@ -195,6 +228,11 @@ namespace Nova
 
         #region Private Methods
 
+        private void GetRootWindow()
+        {
+            m_window = GetComponentInParent<UIWindow>();
+        }
+
         /// <summary>
         /// Create a canvas group if there is none
         /// </summary>
@@ -206,10 +244,6 @@ namespace Nova
             {
                 m_canvasGroup = gameObject.AddComponent<CanvasGroup>();
             }
-        }
-
-        private void FindNavigationController()
-        {
         }
 
         /// <summary>

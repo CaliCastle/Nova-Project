@@ -1,5 +1,7 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using JetBrains.Annotations;
+using System.Collections.Generic;
 
 namespace Nova
 {
@@ -14,24 +16,62 @@ namespace Nova
 
     public class UIWindow : MonoBehaviour
     {
+        #region Properties
+
+        public UIView View => m_view;
+
         [SerializeField]
         private UIView m_view;
 
         [SerializeField]
         private bool m_shouldResetView = true;
 
+        [SerializeField]
+        private List<UIViewController> m_viewControllerPrefabPool;
+
         /// <summary>
         /// View controller references for resetting only.
         /// </summary>
         private readonly List<UIViewController> m_viewControllers = new List<UIViewController>();
 
-        public void AssignView( UIView view )
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="preparation"></param>
+        /// <param name="onComplete"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        [CanBeNull]
+        public T Present<T>( Action<T> preparation = null, Action onComplete = null ) where T : UIViewController
         {
-            if ( m_view == null && view != null )
+            T prefab = m_viewControllerPrefabPool.Find( vc => vc is T ) as T;
+
+            if ( prefab == null )
             {
-                m_view = view;
+                return null;
             }
+
+            T controller = Instantiate( prefab, m_view.transform );
+            controller.ResetBounds();
+            controller.transform.SetAsLastSibling();
+
+            preparation?.Invoke( controller );
+
+            return controller;
         }
+
+        public void Inject( [NotNull] UIView view )
+        {
+            m_view = view;
+        }
+
+        #endregion
+
+        #region MonoBehaviour Methods
 
         private void Awake()
         {
@@ -44,6 +84,10 @@ namespace Nova
             ResetView();
             Launch();
         }
+
+        #endregion
+
+        #region Private Methods
 
         /// <summary>
         /// Destroy any
@@ -73,5 +117,7 @@ namespace Nova
             INovaLaunchable nova = gameObject.GetComponent<INovaLaunchable>();
             nova?.LiftOff( this );
         }
+
+        #endregion
     }
 }

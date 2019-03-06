@@ -57,7 +57,7 @@ namespace Nova.Editor
                 new GUIStyle( GUI.skin.button )
                     {normal = {textColor = GetButtonTextColor( "danger" )}, fixedHeight = c_buttonHeight} ) )
             {
-                ResetRectTransform( m_viewController.transform as RectTransform );
+                m_viewController.ResetBounds();
             }
         }
 

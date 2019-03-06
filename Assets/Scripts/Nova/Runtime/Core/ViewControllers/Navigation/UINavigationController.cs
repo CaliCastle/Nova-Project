@@ -1,9 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Nova
 {
-    public class UINavigationController : UIViewController
+    public abstract class UINavigationController : UIViewController
     {
         #region Properties
 
@@ -20,5 +20,7 @@ namespace Nova
         private UIViewController m_initialViewController;
 
         #endregion
+        
+        
     }
 }
